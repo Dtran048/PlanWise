@@ -18,13 +18,13 @@ def main(page: ft.Page):
     #get today's date
     today = datetime.date.today()
 
-    #create item
-    def create_item(e):
+    #create items
+    def create_item_menu(e):
         item_creation.visible = not item_creation.visible
         item_creation.update()
 
     #to do list item creation
-    item_name = ft.TextField(hint_text = "Item Name", width=screen_width * .125)
+    item_name = ft.TextField(hint_text = "Item Name", width=220)
     item_date = datetime.date.today()
     date_text = ft.Text(value=item_date.strftime(" %B %d %Y"))
     item_time = time(12, 0)
@@ -99,9 +99,19 @@ def main(page: ft.Page):
                     bgcolor=ft.Colors.SURFACE_CONTAINER_HIGHEST,
                     content=ft.Column(
                         tight=True,
-                        spacing=10,
+                        spacing=15,
                         controls=[
-                            item_name,
+                            ft.Row(
+                                tight=True,
+                                spacing=10,
+                                controls=[
+                                    item_name,
+                                    ft.IconButton(
+                                        icon=ft.Icons.CLOSE,
+                                        on_click=create_item_menu,
+                                    ),
+                                ]
+                            ),
                             ft.Row(
                                 tight=True,
                                 spacing=10,
@@ -138,7 +148,11 @@ def main(page: ft.Page):
                                 tight=True,
                                 spacing=0,
                                 controls=day_buttons
-                            )
+                            ),
+                            ft.Button(
+                                content = "Save",
+                                on_click=create_item_menu
+                            ),
                         ]
                     )
                 )
@@ -160,7 +174,7 @@ def main(page: ft.Page):
                             icon=ft.Icons.ADD,
                             icon_size=35,
                             style=ft.ButtonStyle(shape=ft.CircleBorder()),
-                            on_click=create_item
+                            on_click=create_item_menu
                         ),
                     ],
                     alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
