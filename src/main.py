@@ -1,7 +1,6 @@
 import flet as ft
 import datetime 
 from datetime import time
-
 import tkinter as tk
 
 def main(page: ft.Page):
@@ -66,8 +65,10 @@ def main(page: ft.Page):
             e.control.bgcolor = ft.Colors.BLACK
         e.control.update()
 
-    weekdays = ["S","M","T", "W", "T", "F", "S"    ]
-    
+    #list for weekdays
+    weekdays = ["S","M","T", "W", "T", "F", "S"]
+
+    #button template for weekdays
     def create_week_buttons(day):
         return ft.Button(
             width=35,
@@ -81,6 +82,7 @@ def main(page: ft.Page):
             on_click=day_selection,
         )
 
+    #loop to create buttons
     day_buttons = [
         create_week_buttons(day) for day in weekdays
     ]
