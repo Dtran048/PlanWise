@@ -33,12 +33,13 @@ def time_selector(time,button):
         on_change = time_change
     )
 
+#toggles day buttons
 def day_selection(e):
     button = e.control
     button.data = not button.data
     button.bgcolor = ft.Colors.BLUE if button.data else ft.Colors.BLACK
 
-
+#create a button for each day of the week
 def create_day_buttons(day,selected):
     return ft.Button(
         width = 35,
