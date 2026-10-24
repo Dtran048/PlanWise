@@ -1,5 +1,6 @@
 import flet as ft
 import tkinter as tk
+import json
 
 #get screen size and calculate starting window size
 def get_screen_size():
@@ -10,10 +11,10 @@ def get_screen_size():
     return(width, height)
 
 #date picker
-def date_selector(date,button):
+def date_selector(date,button, task):
     def date_change(e: ft.Event[ft.DatePicker]):
-        selected_date = e.control.value
-        button.content.value = selected_date.strftime("%B %d %Y")
+        task[1] = e.control.value
+        button.content.value = task[1].strftime("%B %d %Y")
 
     return ft.DatePicker(
         first_date = date,
@@ -22,10 +23,10 @@ def date_selector(date,button):
     )
 
 #time picker
-def time_selector(time,button):
+def time_selector(time,button, task):
     def time_change(e: ft.Event[ft.TimePicker]):
-        selected_time = e.control.value
-        button.content.value = selected_time.strftime("%I:%M %p")
+        task[2] = e.control.value
+        button.content.value = task[2].strftime("%I:%M %p")
     
     return ft.TimePicker(
         value = time,
@@ -61,4 +62,15 @@ weekdays = ["S","M","T", "W", "T", "F", "S"]
 def week_day_buttons(week):
     return[create_day_buttons(day, selected) for day, selected in zip(weekdays, week)]
 
-
+#saves user inputted data
+def save_task(task, name, repeated, week_row):
+    task = [
+        name,
+        task[1], 
+        task[2], 
+        repeated, 
+        [button.data for button in week_row.controls]
+    ]
+    str_tasks = [str(item) for item in task]
+    with open("tasks.json", "a") as json_file:
+        json.dump(str_tasks, json_file, indent=4)

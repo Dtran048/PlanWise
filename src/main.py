@@ -18,7 +18,7 @@ def main(page: ft.Page):
         page.overlay.remove(task_creation)
 
     #creates task creation menu
-    def create_task_menu(task = ["item name", today, time(12, 0), "",[False] * 7]):
+    def create_task_menu(task = ["", today, time(12, 0), "",[False] * 7]):
         nonlocal task_creation
         page.overlay.append(
             task_creation := ft.SafeArea(
@@ -36,10 +36,14 @@ def main(page: ft.Page):
                                     tight = True,
                                     spacing = 10,
                                     controls = [
-                                        ft.TextField(hint_text = task[0], width = 220),
+                                        name := ft.TextField(
+                                            hint_text = "Task name", 
+                                            value = task[0],
+                                            width = 220
+                                        ),
                                         ft.IconButton(
                                             icon = ft.Icons.CLOSE,
-                                            on_click = close_creation_menu,
+                                            on_click = close_creation_menu
                                         ),
                                     ]
                                 ),
@@ -49,11 +53,11 @@ def main(page: ft.Page):
                                     controls = [
                                         ft.Button(
                                             content = ft.Text(value=task[1].strftime(" %B %d %Y")),
-                                            on_click = lambda e: page.show_dialog(date_selector(task[1], e.control))
+                                            on_click = lambda e: page.show_dialog(date_selector(task[1], e.control, task))
                                         ),
                                         ft.Button(
                                             content = ft.Text(value=task[2].strftime("%H:%M")),
-                                            on_click = lambda e: page.show_dialog(time_selector(task[2], e.control))
+                                            on_click = lambda e: page.show_dialog(time_selector(task[2], e.control, task))
                                         )
                                     ]
                                 ),
@@ -62,7 +66,7 @@ def main(page: ft.Page):
                                     spacing = 10,
                                     controls = [
                                         ft.Text(value = " Remind me"),
-                                        ft.Dropdown(                     
+                                        repeated := ft.Dropdown(                     
                                             width = 170,
                                             value = task[3],                    
                                             options = [
@@ -73,15 +77,14 @@ def main(page: ft.Page):
                                     ]
                                 ),
                                 ft.Text(" Repeating"),
-                                ft.Row(
+                                week_row := ft.Row(
                                     tight = True,
                                     spacing = 0,
                                     controls = week_day_buttons(task[4])
                                 ),
                                 ft.Button(
                                     content = "Save",
-                                    #edit
-                                    on_click = close_creation_menu
+                                    on_click = lambda e: save_task(task, name.value, repeated.value, week_row)
                                 ),
                             ]
                         )
