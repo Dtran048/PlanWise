@@ -10,6 +10,10 @@ def get_screen_size():
     root.destroy()
     return(width, height)
 
+#close task creation menu
+def close_creation_menu(page, task):
+    page.overlay.remove(task)
+
 #date picker
 def date_selector(date,button, task):
     def date_change(e: ft.Event[ft.DatePicker]):

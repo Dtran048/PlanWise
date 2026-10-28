@@ -12,10 +12,7 @@ def main(page: ft.Page):
 
     task_creation = None
 
-    #close task creation menu
-    def close_creation_menu():
-        nonlocal task_creation
-        page.overlay.remove(task_creation)
+
 
     #creates task creation menu
     def create_task_menu(task = ["", today, time(12, 0), "",[False] * 7]):
@@ -43,7 +40,7 @@ def main(page: ft.Page):
                                         ),
                                         ft.IconButton(
                                             icon = ft.Icons.CLOSE,
-                                            on_click = close_creation_menu
+                                            on_click = lambda e: close_creation_menu(page, task_creation)
                                         ),
                                     ]
                                 ),
@@ -84,7 +81,10 @@ def main(page: ft.Page):
                                 ),
                                 ft.Button(
                                     content = "Save",
-                                    on_click = lambda e: save_task(task, name.value, repeated.value, week_row)
+                                    on_click = lambda e: (
+                                        save_task(task, name.value, repeated.value, week_row), 
+                                        close_creation_menu(page, task_creation)
+                                    )
                                 ),
                             ]
                         )
