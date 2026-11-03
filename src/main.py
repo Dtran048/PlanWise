@@ -1,18 +1,19 @@
 #imports
 import flet as ft
+import os
+import winreg
+import sys
 from datetime import date, time
 from functions import *
 
 def main(page: ft.Page):
     #creates starting size for window
-    page.window.width, page.window.height = get_screen_size() 
+    page.window.width, page.window.height = get_screen_size()
     
     #get today's date
     today = date.today()
 
     task_creation = None
-
-
 
     #creates task creation menu
     def create_task_menu(task = ["", today, time(12, 0), "",[False] * 7]):
@@ -116,6 +117,24 @@ def main(page: ft.Page):
         ),
     )
 
+#this auto starts the program
+def enable_auto_start():
+    if os.name == 'nt':
+        app_name = "PlanWise"
+        #gets the current script path
+        script_path = os.path.abspath(sys.argv[0])
+        run_command = f'"{sys.executable}" "{script_path}"'
+        registry_path = r"Software\Microsoft\Windows\CurrentVersion\Run"
+
+        try:
+            key = winreg.OpenKey(winreg.HKEY_CURRENT_USER, registry_path, 0, winreg.KEY_SET_VALUE)
+            winreg.SetValueEx(key, app_name, 0, winreg.REG_SZ, run_command)
+            winreg.CloseKey(key)
+
+        except Exception as e:
+            print(f"Startup failed: {e}")
+
 #runs program
 if __name__ == "__main__":
+    enable_auto_start()
     ft.run(main)
