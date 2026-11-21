@@ -3,10 +3,10 @@ revision = 5
 requires-python = ">=3.10"
 resolution-markers = [
     "(python_full_version >= '3.12' and platform_machine != 'ARM64') or (python_full_version >= '3.12' and sys_platform != 'win32')",
-    "(python_full_version == '3.11.*' and platform_machine != 'ARM64') or (python_full_version == '3.11.*' and sys_platform != 'win32')",
-    "(python_full_version < '3.11' and platform_machine != 'ARM64') or (python_full_version < '3.11' and sys_platform != 'win32')",
     "python_full_version >= '3.12' and platform_machine == 'ARM64' and sys_platform == 'win32'",
+    "(python_full_version == '3.11.*' and platform_machine != 'ARM64') or (python_full_version == '3.11.*' and sys_platform != 'win32')",
     "python_full_version == '3.11.*' and platform_machine == 'ARM64' and sys_platform == 'win32'",
+    "(python_full_version < '3.11' and platform_machine != 'ARM64') or (python_full_version < '3.11' and sys_platform != 'win32')",
     "python_full_version < '3.11' and platform_machine == 'ARM64' and sys_platform == 'win32'",
 ]
 
@@ -502,6 +502,20 @@ wheels = [
 ]
 
 [[package]]
+name = "icalendar"
+version = "7.3.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "python-dateutil" },
+    { name = "typing-extensions", marker = "python_full_version < '3.13'" },
+    { name = "tzdata" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/47/2b/1bbf82d316df18c3331d9a06228819c8a5814ceda545a3e9980e52ffce1b/icalendar-7.3.0.tar.gz", hash = "sha256:7bd001c8e648205e1bde5c6a5b77096598e8d0893dcf57755c6c597635620132", size = 525811, upload-time = "2026-08-19T15:10:21.05Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/bb/82/50bff78b0bb0c7d7c0cb39e0ee189b92f611fff6bd7cf57f25e92d5a7551/icalendar-7.3.0-py3-none-any.whl", hash = "sha256:8355acfe17be81b368f0b1e3740817cea9b56ea889931f8f1a87c62f2d28db0b", size = 542540, upload-time = "2026-08-19T15:10:19.525Z" },
+]
+
+[[package]]
 name = "idna"
 version = "3.20"
 source = { registry = "https://pypi.org/simple" }
@@ -533,8 +547,8 @@ version = "2.38.1"
 source = { registry = "https://pypi.org/simple" }
 resolution-markers = [
     "(python_full_version >= '3.12' and platform_machine != 'ARM64') or (python_full_version >= '3.12' and sys_platform != 'win32')",
-    "(python_full_version == '3.11.*' and platform_machine != 'ARM64') or (python_full_version == '3.11.*' and sys_platform != 'win32')",
     "python_full_version >= '3.12' and platform_machine == 'ARM64' and sys_platform == 'win32'",
+    "(python_full_version == '3.11.*' and platform_machine != 'ARM64') or (python_full_version == '3.11.*' and sys_platform != 'win32')",
     "python_full_version == '3.11.*' and platform_machine == 'ARM64' and sys_platform == 'win32'",
 ]
 dependencies = [
@@ -1641,8 +1655,8 @@ version = "0.26.0"
 source = { registry = "https://pypi.org/simple" }
 resolution-markers = [
     "(python_full_version >= '3.12' and platform_machine != 'ARM64') or (python_full_version >= '3.12' and sys_platform != 'win32')",
-    "(python_full_version == '3.11.*' and platform_machine != 'ARM64') or (python_full_version == '3.11.*' and sys_platform != 'win32')",
     "python_full_version >= '3.12' and platform_machine == 'ARM64' and sys_platform == 'win32'",
+    "(python_full_version == '3.11.*' and platform_machine != 'ARM64') or (python_full_version == '3.11.*' and sys_platform != 'win32')",
     "python_full_version == '3.11.*' and platform_machine == 'ARM64' and sys_platform == 'win32'",
 ]
 dependencies = [
@@ -2006,6 +2020,8 @@ version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
     { name = "flet" },
+    { name = "icalendar" },
+    { name = "requests" },
 ]
 
 [package.dev-dependencies]
@@ -2017,7 +2033,11 @@ dev = [
 ]
 
 [package.metadata]
-requires-dist = [{ name = "flet", specifier = ">=1.0.4" }]
+requires-dist = [
+    { name = "flet", specifier = ">=1.0.4" },
+    { name = "icalendar", specifier = ">=7.3.0" },
+    { name = "requests", specifier = ">=2.34.2" },
+]
 
 [package.metadata.requires-dev]
 dev = [
@@ -2420,8 +2440,8 @@ version = "17.2"
 source = { registry = "https://pypi.org/simple" }
 resolution-markers = [
     "(python_full_version >= '3.12' and platform_machine != 'ARM64') or (python_full_version >= '3.12' and sys_platform != 'win32')",
-    "(python_full_version == '3.11.*' and platform_machine != 'ARM64') or (python_full_version == '3.11.*' and sys_platform != 'win32')",
     "python_full_version >= '3.12' and platform_machine == 'ARM64' and sys_platform == 'win32'",
+    "(python_full_version == '3.11.*' and platform_machine != 'ARM64') or (python_full_version == '3.11.*' and sys_platform != 'win32')",
     "python_full_version == '3.11.*' and platform_machine == 'ARM64' and sys_platform == 'win32'",
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/01/89/3f825ab71c242fffb62ea8fe638741c290f62f8d7aadf8125ff897747af3/websockets-17.2.tar.gz", hash = "sha256:36c2fb94c990cc2545143b12690e2de6c16300f9dbe5b4f33fa300cf57dc8792", size = 188355, upload-time = "2026-10-03T14:56:53.5Z" }
