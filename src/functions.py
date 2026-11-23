@@ -1,6 +1,7 @@
 import flet as ft
 import tkinter as tk
 import json
+import os
 
 #get screen size and calculate starting window size
 def get_screen_size():
@@ -76,5 +77,74 @@ def save_task(task, name, repeated, week_row):
         [button.data for button in week_row.controls]
     ]
     str_tasks = [str(item) for item in task]
-    with open("tasks.json", "a") as json_file:
+    json_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "tasks.json")
+    with open(json_path, "a", encoding="utf-8") as json_file:
         json.dump(str_tasks, json_file, indent=4)
+
+# updates an existing task in tasks.json by index
+def update_task(task_index, task, name, repeated, week_row):
+    updated_task = [
+        name,
+        task[1],
+        task[2],
+        repeated,
+        [button.data for button in week_row.controls]
+    ]
+    str_task = [str(item) for item in updated_task]
+    json_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "tasks.json")
+
+    all_tasks = []
+    if os.path.exists(json_path):
+        with open(json_path, "r", encoding="utf-8") as f:
+            raw_data = f.read().strip()
+
+        decoder = json.JSONDecoder()
+        idx = 0
+        while idx < len(raw_data):
+            while idx < len(raw_data) and raw_data[idx].isspace():
+                idx += 1
+            if idx >= len(raw_data):
+                break
+            try:
+                item, next_idx = decoder.raw_decode(raw_data, idx)
+                idx = next_idx
+                all_tasks.append(item)
+            except json.JSONDecodeError:
+                break
+
+    if 0 <= task_index < len(all_tasks):
+        all_tasks[task_index] = str_task
+
+    with open(json_path, "w", encoding="utf-8") as json_file:
+        for item in all_tasks:
+            json.dump(item, json_file, indent=4)
+
+# deletes a task from tasks.json by index
+def delete_task(task_index):
+    json_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "tasks.json")
+
+    all_tasks = []
+    if os.path.exists(json_path):
+        with open(json_path, "r", encoding="utf-8") as f:
+            raw_data = f.read().strip()
+
+        decoder = json.JSONDecoder()
+        idx = 0
+        while idx < len(raw_data):
+            while idx < len(raw_data) and raw_data[idx].isspace():
+                idx += 1
+            if idx >= len(raw_data):
+                break
+            try:
+                item, next_idx = decoder.raw_decode(raw_data, idx)
+                idx = next_idx
+                all_tasks.append(item)
+            except json.JSONDecodeError:
+                break
+
+    if 0 <= task_index < len(all_tasks):
+        all_tasks.pop(task_index)
+
+    with open(json_path, "w", encoding="utf-8") as json_file:
+        for item in all_tasks:
+            json.dump(item, json_file, indent=4)
